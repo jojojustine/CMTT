@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import generateToken from '../utils/generateToken.js'
 import User from '../models/userModel.js'
+import taskModel from '../models/taskModel.js';
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
 // @access  Public
@@ -72,7 +73,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/profile
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);  
+  const user = await User.findById(req.user._id); 
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;

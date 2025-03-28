@@ -16,7 +16,7 @@ const LoginScreen = () => {
     const {userInfo} = useSelector((state) => state.auth);
     useEffect(() => {
         if (userInfo) {
-          navigate('/');
+          navigate('/home');
         }
       }, [navigate, userInfo]);
 
@@ -26,7 +26,7 @@ const LoginScreen = () => {
         try {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
-      navigate('/');
+      navigate('/home');
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }

@@ -14,7 +14,7 @@ const Header = () => {
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
-      navigate('/');
+      navigate('/login');
     } catch (err) {
       console.error(err);
     }
