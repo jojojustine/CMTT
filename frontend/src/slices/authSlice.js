@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// Initial state with fallback to localStorage if available
 const initialState = {
   userInfo: localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo'))
     : null,
+  token: localStorage.getItem('jwt') || null,  // Storing JWT token if available
 };
 
 const authSlice = createSlice({
@@ -11,12 +13,22 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      state.userInfo = action.payload;
-      localStorage.setItem('userInfo', JSON.stringify(action.payload));
+      // Store user info and JWT token
+      state.userInfo = action.payload.userInfo;
+      state.token = action.payload.token;
+      
+      // Save to localStorage
+      localStorage.setItem('userInfo', JSON.stringify(action.payload.userInfo));
+      localStorage.setItem('jwt', action.payload.token);
     },
-    logout: (state, action) => {
+    logout: (state) => {
+      // Reset userInfo and token on logout
       state.userInfo = null;
+      state.token = null;
+
+      // Remove from localStorage
       localStorage.removeItem('userInfo');
+      localStorage.removeItem('jwt');
     },
   },
 });
