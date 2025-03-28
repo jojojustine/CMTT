@@ -18,7 +18,7 @@ const RegisterScreen = () => {
     const[register, {isLoading}]= useRegisterMutation();
     useEffect(() => {
         if (userInfo) {
-          navigate('/home');
+          navigate('/');
         }
       }, [navigate, userInfo]);
     const submitHandler = async (e) => {
@@ -29,7 +29,7 @@ const RegisterScreen = () => {
             try {
               const res = await register({ name, email, password }).unwrap();
               dispatch(setCredentials({ ...res }));
-              navigate('/home');
+              navigate('/');
             } catch (err) {
               toast.error(err?.data?.message || err.error);
             }
