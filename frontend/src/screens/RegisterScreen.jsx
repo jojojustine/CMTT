@@ -18,7 +18,7 @@ const RegisterScreen = () => {
     const[register, {isLoading}]= useRegisterMutation();
     useEffect(() => {
         if (userInfo) {
-          navigate('/');
+          navigate('/home');
         }
       }, [navigate, userInfo]);
     const submitHandler = async (e) => {
