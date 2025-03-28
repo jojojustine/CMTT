@@ -19,8 +19,8 @@ import ProfileScreen from './screens/ProfileScreen.jsx';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path= '/' element={<App />}>
-      <Route path='/home' element={<HomeScreen />} />
-      <Route index={true} path='/login' element={<LoginScreen />} />
+      <Route index={true} path='/' element={<HomeScreen />} />
+      <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
       {/*Private Routes */}
       <Route path='' element={<PrivateRoute />}>
