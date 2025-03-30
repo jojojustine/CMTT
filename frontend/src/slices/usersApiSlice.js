@@ -64,6 +64,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Task'],
     }),
+    updateTask: builder.mutation({
+      query: ({ taskId, taskData }) => ({
+        url: `${USERS_URL}/tasks/${taskId}`,
+        method: 'PUT',
+        body: taskData,
+      }),
+      invalidatesTags: ['Task'],
+    }),
     
 
   
@@ -71,5 +79,5 @@ export const userApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-  useLoginMutation,useLogoutMutation,useRegisterMutation,useUpdateUserMutation,useGetTasksQuery,useCreateTaskMutation,useDeleteTaskMutation,useCompleteTaskMutation
+  useLoginMutation,useLogoutMutation,useRegisterMutation,useUpdateUserMutation,useGetTasksQuery,useCreateTaskMutation,useDeleteTaskMutation,useCompleteTaskMutation,useUpdateTaskMutation
 } = userApiSlice;

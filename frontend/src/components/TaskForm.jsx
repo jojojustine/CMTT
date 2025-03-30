@@ -6,6 +6,8 @@ const TaskForm = () => {
   const [description, setDescription] = useState('');
   const [visibility, setVisibility] = useState('private');
   const [tags, setTags] = useState('');
+  const [resourceLink, setResourceLink] = useState('');
+
   
   const [createTask] = useCreateTaskMutation();
   
@@ -14,6 +16,7 @@ const TaskForm = () => {
     setDescription('');
     setVisibility('private');
     setTags('');
+    setResourceLink('');
   };
 
   const handleSubmit = async (e, status) => {
@@ -24,7 +27,7 @@ const TaskForm = () => {
       description,
       visibility,
       tags: tags.split(',').map((tag) => tag.trim()),
-      status
+      status,resourceLink
     };
 
     try {
@@ -60,6 +63,13 @@ const TaskForm = () => {
         <option value="group">Group</option>
         <option value="public">Public</option>
       </select>
+      <input
+  type="text"
+  placeholder="Resource Link (optional)"
+  value={resourceLink}
+  onChange={(e) => setResourceLink(e.target.value)}
+/>
+
       <input
         type="text"
         placeholder="Tags (comma separated)"

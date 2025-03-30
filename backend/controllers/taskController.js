@@ -47,24 +47,23 @@ export const getUserTasks = async (req, res) => {
     }
     
     // Handle visibility filtering
-    if (visibility === 'all') {
-      // Show only public tasks (from any user)
-      filter.visibility = 'public';
-    } 
-    else if (visibility === 'private') {
-      // Show only private tasks owned by the current user
-      filter.visibility = 'private';
-      filter.owner = req.user._id;
-    }
-    else {
-      // Default case: Show both public tasks AND private tasks owned by the user
-      filter = {
-        $or: [
-          { visibility: 'public' },
-          { visibility: 'private', owner: req.user._id }
-        ]
-      };
-    }
+if (visibility === 'completed') {
+  filter.status = 'Completed';
+  filter.owner = req.user._id;
+} else if (visibility === 'all') {
+  filter.visibility = 'public';
+} else if (visibility === 'private') {
+  filter.visibility = 'private';
+  filter.owner = req.user._id;
+} else {
+  filter = {
+    $or: [
+      { visibility: 'public' },
+      { visibility: 'private', owner: req.user._id }
+    ]
+  };
+}
+
     
     // Fetch tasks with the filter
     const tasks = await Task.find(filter);
@@ -84,24 +83,35 @@ export const updateTask = async (req, res) => {
       return res.status(404).json({ message: 'Task not found' });
     }
 
-    // Check if the user is the owner of the task
     if (task.owner.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: 'Not authorized to update this task' });
     }
 
-    // Update task fields
+    // Update basic fields
     task.title = title || task.title;
     task.description = description || task.description;
-    task.status = status || task.status;
     task.visibility = visibility || task.visibility;
     task.tags = tags || task.tags;
+
+    // ✅ Fix the status logic
+    const incomingStatus = status || task.status;
+    task.resourceLink = req.body.resourceLink || task.resourceLink;
+
+
+    if (task.status === 'Completed' || incomingStatus === 'Completed') {
+      task.status = 'Published';
+    } else {
+      task.status = incomingStatus;
+    }
 
     const updatedTask = await task.save();
     res.json(updatedTask);
   } catch (error) {
+    console.error('Update failed:', error); // Add this for debugging
     res.status(500).json({ message: 'Failed to update task', error: error.message });
   }
-}
+};
+
 export const deleteTask = async (req, res) => {
   try {
     // Find and delete the task by ID
