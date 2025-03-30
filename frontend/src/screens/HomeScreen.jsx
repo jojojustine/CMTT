@@ -1,4 +1,6 @@
-import Hero from "../components/Hero"
+// frontend/src/screens/HomeScreen.jsx - keep it simple
+import Hero from "../components/Hero";
+
 const HomeScreen = () => {
   return <Hero />;
 }

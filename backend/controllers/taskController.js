@@ -15,7 +15,7 @@ export const createTask = async (req, res) => {
       resourceLink: resourceLink || '',
       tags: tags || [],
       visibility: visibility || 'private',  // Default to 'private' if not provided
-      status: status || 'Draft',  // Default status to 'Draft' if not provided
+      status: status || 'Published',  // Default status to 'Draft' if not provided
       owner: req.user._id,  // Set the owner to the authenticated user's ID
     });
 
@@ -28,23 +28,44 @@ export const createTask = async (req, res) => {
 
 export const getUserTasks = async (req, res) => {
   try {
-    const { title, tags, visibility } = req.query;  // Read query params from URL
+    const { title, tags, visibility } = req.query;
 
-    const filter = { owner: req.user._id };  // Always filter by owner for private tasks
-
+    console.log(req.query);
+    
+    
+    // Start with an empty filter object
+    let filter = {};
+    
+    // Apply title filter if provided
     if (title) {
-      filter.title = { $regex: title, $options: 'i' };  // Search by title (case insensitive)
+      filter.title = { $regex: title, $options: 'i' };
     }
-
+    
+    // Apply tags filter if provided
     if (tags) {
-      filter.tags = { $in: tags.split(',') };  // Filter by tags (comma-separated)
+      filter.tags = { $in: tags.split(',') };
     }
-
-    // Add visibility filter if requested
-    if (visibility) {
-      filter.visibility = visibility;
+    
+    // Handle visibility filtering
+    if (visibility === 'all') {
+      // Show only public tasks (from any user)
+      filter.visibility = 'public';
+    } 
+    else if (visibility === 'private') {
+      // Show only private tasks owned by the current user
+      filter.visibility = 'private';
+      filter.owner = req.user._id;
     }
-
+    else {
+      // Default case: Show both public tasks AND private tasks owned by the user
+      filter = {
+        $or: [
+          { visibility: 'public' },
+          { visibility: 'private', owner: req.user._id }
+        ]
+      };
+    }
+    
     // Fetch tasks with the filter
     const tasks = await Task.find(filter);
     res.json(tasks);
@@ -101,5 +122,32 @@ export const deleteTask = async (req, res) => {
     res.json({ message: 'Task deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Failed to delete task', error: error.message });
+  }
+};
+
+export const completeTask = async (req, res) => {
+  try {
+   
+    const task = await Task.findById(req.params.id);
+
+    console.log(task);
+    
+
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+   
+    if (task.owner.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to delete this task' });
+    }
+
+    task.status = 'Completed';
+
+    await task.save();
+
+    res.json({ message: 'Task completed successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to mark complete task', error: error.message });
   }
 };

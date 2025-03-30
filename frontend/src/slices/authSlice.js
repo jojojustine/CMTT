@@ -1,11 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// Initial state with fallback to localStorage if available
+const safeParse = (key) => {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
+  } catch (error) {
+    console.error(`Error parsing ${key}:`, error);
+    return null; // Return null if JSON parsing fails
+  }
+};
+
 const initialState = {
-  userInfo: localStorage.getItem('userInfo')
-    ? JSON.parse(localStorage.getItem('userInfo'))
-    : null,
-  token: localStorage.getItem('jwt') || null,  // Storing JWT token if available
+  userInfo: safeParse('userInfo'), // Using safeParse for error handling
 };
 
 const authSlice = createSlice({
@@ -13,22 +19,12 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      // Store user info and JWT token
-      state.userInfo = action.payload.userInfo;
-      state.token = action.payload.token;
-      
-      // Save to localStorage
-      localStorage.setItem('userInfo', JSON.stringify(action.payload.userInfo));
-      localStorage.setItem('jwt', action.payload.token);
+      state.userInfo = action.payload;
+      localStorage.setItem('userInfo', JSON.stringify(action.payload));
     },
-    logout: (state) => {
-      // Reset userInfo and token on logout
+    logout: (state, action) => {
       state.userInfo = null;
-      state.token = null;
-
-      // Remove from localStorage
       localStorage.removeItem('userInfo');
-      localStorage.removeItem('jwt');
     },
   },
 });

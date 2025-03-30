@@ -1,58 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import api from '../utils/api';  // Axios instance for making API requests
+import React, { useState } from 'react';
+import { useGetTasksQuery } from '../slices/usersApiSlice';
 
-const TaskList = () => {
-  const [tasks, setTasks] = useState([]);
-  const [visibilityFilter, setVisibilityFilter] = useState('all');  // Filtering tasks by visibility
-  const [loading, setLoading] = useState(false);  // Track loading state
-  const [error, setError] = useState(null);  // Track error state
+const TaskList = ({ onToggleComplete, onDeleteTask }) => {
+  const [visibilityFilter, setVisibilityFilter] = useState('all');
+  
+  // Use the RTK Query hook to fetch tasks
+  const { data: tasks = [], isLoading, isError, error } = useGetTasksQuery(visibilityFilter);
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      setLoading(true);  // Start loading
-      setError(null);  // Reset any previous errors
-      try {
-        const response = await api.get('/tasks/my-tasks', {
-          params: { visibility: visibilityFilter },  // Optionally filter tasks by visibility
-        });
-        setTasks(response.data);  // Update state with fetched tasks
-      } catch (error) {
-        setError('Error fetching tasks');  // Handle error if request fails
-        console.error('Error fetching tasks:', error.response?.data || error.message);
-      } finally {
-        setLoading(false);  // End loading
-      }
-    };
+  if (isLoading) {
+    return <div>Loading tasks...</div>;
+  }
 
-    fetchTasks();
-  }, [visibilityFilter]);  // Re-fetch tasks when the visibility filter changes
-
-  if (loading) return <p>Loading tasks...</p>;  // Display loading state
-  if (error) return <p>{error}</p>;  // Display error message
+  if (isError) {
+    return <div>Error loading tasks: {error?.data?.message || 'Unknown error'}</div>;
+  }
 
   return (
     <div>
-      <select onChange={(e) => setVisibilityFilter(e.target.value)} value={visibilityFilter}>
-        <option value="all">All Tasks</option>
-        <option value="private">Private</option>
-        <option value="group">Group</option>
-        <option value="public">Public</option>
-      </select>
+      <h2>Your Tasks</h2>
+      
+      <div className="filter-controls">
+        <label htmlFor="visibility-filter">Filter by: </label>
+        <select 
+          id="visibility-filter"
+          onChange={(e) => setVisibilityFilter(e.target.value)} 
+          value={visibilityFilter}
+        >
+          <option value="All Tasks">All Tasks</option>
+          <option value="private">Private</option>
+          <option value="group">Group</option>
+          <option value="all">Public</option>
+        </select>
+      </div>
 
-      <div>
-        {tasks.length === 0 ? (
-          <p>No tasks available</p>  // Handle case where no tasks are returned
-        ) : (
-          tasks.map((task) => (
-            <div key={task._id}>
+      {tasks.length === 0 ? (
+        <p>No tasks found.</p>
+      ) : (
+        <div className="tasks-container">
+          {tasks.map((task) => (
+            <div key={task._id} className="task-card">
               <h3>{task.title}</h3>
               <p>{task.description}</p>
-              <span>{task.visibility}</span>
-              <p>{task.tags.join(', ')}</p>
+              <div className="task-meta">
+                <span className="visibility-badge">{task.visibility}</span>
+                {task.tags && task.tags.length > 0 && (
+                  <p className="tags">Tags: {task.tags.join(', ')}</p>
+                )}
+              </div>
+              <div className="task-actions">
+                <button onClick={() => onToggleComplete(task._id)}>
+                  {task.completed ? 'Mark Incomplete' : 'Mark Complete'}
+                </button>
+                <button onClick={() => onDeleteTask(task._id)}>Delete</button>
+              </div>
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

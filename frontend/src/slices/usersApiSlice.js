@@ -30,9 +30,46 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
       }),
     }),
+    getTasks: builder.query({
+      
+      
+      query: (visibility) => `api/users/tasks/my-tasks?visibility=${visibility}`, 
+      providesTags: ['Task'],
+      
+      
+    }),
+   
+
+    createTask: builder.mutation({
+      query: (taskData) => ({
+        url: `${USERS_URL}/tasks`,
+        method: 'POST',
+        body: taskData,
+      }),
+      invalidatesTags: ['Task'],
+    }),
+    
+    deleteTask: builder.mutation({
+      query: (taskId) => ({
+        url: `${USERS_URL}/tasks/${taskId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Task'],
+    }),
+
+    completeTask: builder.mutation({
+      query: (taskId) => ({
+        url: `${USERS_URL}/tasks/complete/${taskId}`,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['Task'],
+    }),
+    
+
+  
   }),
 });
 
 export const {
-  useLoginMutation,useLogoutMutation,useRegisterMutation,useUpdateUserMutation
+  useLoginMutation,useLogoutMutation,useRegisterMutation,useUpdateUserMutation,useGetTasksQuery,useCreateTaskMutation,useDeleteTaskMutation,useCompleteTaskMutation
 } = userApiSlice;

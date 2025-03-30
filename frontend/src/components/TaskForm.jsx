@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
-import { useCreateTaskMutation } from '../slices/apiSlice';
+import { useCreateTaskMutation } from '../slices/usersApiSlice';
 
 const TaskForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [visibility, setVisibility] = useState('private');
   const [tags, setTags] = useState('');
+  
+  const [createTask] = useCreateTaskMutation();
+  
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setVisibility('private');
+    setTags('');
+  };
 
-  const [createTask] = useCreateTaskMutation();  // Hook from RTK Query to call the API
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, status) => {
     e.preventDefault();
 
     const taskData = {
@@ -17,22 +24,20 @@ const TaskForm = () => {
       description,
       visibility,
       tags: tags.split(',').map((tag) => tag.trim()),
+      status
     };
 
     try {
       await createTask(taskData);  // Trigger the API call
-      // Optionally reset form fields after task creation
-      setTitle('');
-      setDescription('');
-      setVisibility('private');
-      setTags('');
+      // Reset form fields after task creation
+      resetForm();
     } catch (error) {
       console.error('Error creating task:', error.message);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={(e) => handleSubmit(e, 'Published')}>
       <input
         type="text"
         placeholder="Task Title"
@@ -61,7 +66,15 @@ const TaskForm = () => {
         value={tags}
         onChange={(e) => setTags(e.target.value)}
       />
-      <button type="submit">Create Task</button>
+      <div className="button-group">
+        <button type="submit">Create Task</button>
+        {/* <button 
+          type="button" 
+          onClick={(e) => handleSubmit(e, 'Draft')}
+        >
+          Save as Draft
+        </button> */}
+      </div>
     </form>
   );
 };

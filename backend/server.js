@@ -6,6 +6,8 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import connectDB from './config/db.js';  // Import connectDB function
 import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
+import morgan from 'morgan';
+
 
 dotenv.config();  // Load environment variables from .env file
 
@@ -15,6 +17,7 @@ const port = process.env.PORT || 5001;
 connectDB();  // Ensure MongoDB connection is established before starting the server
 
 const app = express();
+app.use(morgan('dev'));
 
 // Enable CORS for the frontend (localhost:3000)
 app.use(cors({
@@ -29,7 +32,7 @@ app.use(cookieParser());
 
 // Define Routes
 app.use('/api/users', userRoutes);
-app.use('/api/tasks', taskRoutes);
+app.use('/api/users/tasks', taskRoutes);
 
 // Root route to check if the server is up
 app.get('/', (req, res) => res.send('Server is ready'));

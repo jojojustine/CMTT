@@ -26,7 +26,7 @@ const taskSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum : ['Draft','Published']
+    enum : ['Draft','Published',"Completed"]
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
