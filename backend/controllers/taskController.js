@@ -1,5 +1,7 @@
 // controllers/taskController.js
 import Task from '../models/taskModel.js';
+import Group from '../models/groupModel.js';
+
 
 export const createTask = async (req, res) => {
   const { title, description, resourceLink, tags, visibility, status } = req.body;
@@ -55,7 +57,14 @@ if (visibility === 'completed') {
 } else if (visibility === 'private') {
   filter.visibility = 'private';
   filter.owner = req.user._id;
-} else {
+} else if (visibility === 'group') {
+  // ✅ GROUP LOGIC GOES HERE
+  const userGroups = await Group.find({ members: req.user._id }).select('_id');
+  filter.visibility = 'group';
+  filter.group = { $in: userGroups.map(g => g._id) };
+
+}
+else {
   filter = {
     $or: [
       { visibility: 'public' },

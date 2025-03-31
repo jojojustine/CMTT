@@ -6,6 +6,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import connectDB from './config/db.js';  // Import connectDB function
 import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
+import groupRoutes from './routes/groupRoutes.js';
 import morgan from 'morgan';
 
 
@@ -33,7 +34,7 @@ app.use(cookieParser());
 // Define Routes
 app.use('/api/users', userRoutes);
 app.use('/api/users/tasks', taskRoutes);
-
+app.use('/api/users/groups', groupRoutes);
 // Root route to check if the server is up
 app.get('/', (req, res) => res.send('Server is ready'));
 

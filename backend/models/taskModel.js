@@ -28,6 +28,11 @@ const taskSchema = new mongoose.Schema({
     type: String,
     enum : ['Draft','Published',"Completed"]
   },
+  group: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Group',
+    default: null,
+  },  
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
