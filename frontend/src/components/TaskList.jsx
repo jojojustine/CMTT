@@ -16,7 +16,7 @@ const TaskList = () => {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [detailTask, setDetailTask] = useState(null);
 
-  const { data: tasks = [], isLoading, isError, error } = useGetTasksQuery(visibilityFilter);
+  const { data: tasks = [], isLoading, isError, error, refetch } = useGetTasksQuery(visibilityFilter);
   const [updateTask] = useUpdateTaskMutation();
   const [completeTask] = useCompleteTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
@@ -31,19 +31,27 @@ const TaskList = () => {
       await updateTask({ taskId: selectedTask._id, taskData: updatedFields }).unwrap();
       toast.success('Task updated successfully!');
       setIsModalOpen(false);
+      refetch(); // ✅ Refetch the updated list
     } catch (err) {
       console.error('Failed to update task:', err);
       toast.error('Failed to update task');
     }
   };
+  
 
   const handleToggleComplete = async (taskId) => {
     try {
       await completeTask(taskId).unwrap();
+      toast.success('Marked as complete!');
+      setIsDetailOpen(false);
+      refetch(); // ✅ Refetch to update completedBy
     } catch (err) {
-      console.error('Failed to toggle complete:', err);
+      console.error('Failed to complete task:', err);
+      toast.error('Failed to mark task as complete');
     }
   };
+  
+  
 
   const handleDeleteTask = async (taskId) => {
     try {
@@ -57,7 +65,8 @@ const TaskList = () => {
     setDetailTask(task);
     setIsDetailOpen(true);
   };
-
+  
+  
   if (isLoading) return <div>Loading tasks...</div>;
   if (isError) return <div>Error loading tasks: {error?.data?.message || 'Unknown error'}</div>;
 

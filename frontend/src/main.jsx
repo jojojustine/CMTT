@@ -18,6 +18,7 @@ import LoginScreen from './screens/LoginScreen.jsx';
 import RegisterScreen from './screens/RegisterScreen.jsx';
 import ProfileScreen from './screens/ProfileScreen.jsx';
 import TasksScreen from './screens/TaskScreen.jsx';
+import GroupScreen from './screens/GroupScreen.jsx';
 import TaskForm from './components/TaskForm.jsx';  // TaskForm component
 import TaskList from './components/TaskList.jsx';  // TaskList component
 
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
       <Route element={<PrivateRoute />}>
         <Route path="/profile" element={<ProfileScreen />} />  {/* Profile route */}
         <Route path='/tasks' element={<TasksScreen />} /> 
+        <Route path="/groups" element={<GroupScreen />} />
       </Route>
     </Route>
   )

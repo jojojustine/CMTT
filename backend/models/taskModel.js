@@ -37,7 +37,12 @@ const taskSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-  }
+  },completedBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: [],
+  }],
+  
 }, { timestamps: true });
 
 export default mongoose.model('Task', taskSchema); // Use default export

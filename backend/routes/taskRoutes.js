@@ -17,5 +17,6 @@ router.put('/:id', protect, updateTask);
 router.delete('/:id', protect, deleteTask);
 
 router.put('/complete/:id', protect, completeTask);
+router.get('/', protect, getUserTasks);
 
 export default router;

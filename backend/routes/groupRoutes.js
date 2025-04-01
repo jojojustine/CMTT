@@ -5,13 +5,14 @@ import {
   getMyGroups,
   inviteToGroup,joinGroupByCode,
   removeFromGroup,
-  deleteGroup
+  deleteGroup,getOwnedGroups
 } from '../controllers/groupController.js';
 
 const router = express.Router();
 
 router.post('/', protect, createGroup);
 router.get('/', protect, getMyGroups);
+router.get('/owned', protect, getOwnedGroups);
 router.put('/:groupId/invite', protect, inviteToGroup);
 router.post('/join', protect, joinGroupByCode);
 router.put('/:groupId/remove', protect, removeFromGroup);

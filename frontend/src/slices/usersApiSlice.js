@@ -72,12 +72,59 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Task'],
     }),
+    createGroup: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/groups`,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Group']
+    }),
+    getMyGroups: builder.query({
+      query: () => `${USERS_URL}/groups`,
+      providesTags: ['Group']
+    }),
+    joinGroup: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/groups/join`,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Group']
+    }), 
+    deleteGroup: builder.mutation({
+      query: (groupId) => ({
+        url: `${USERS_URL}/groups/${groupId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Group'],
+    }),
     
-
+    removeGroupMember: builder.mutation({
+      query: ({ groupId, userId }) => ({
+        url: `${USERS_URL}/groups/${groupId}/remove`,
+        method: 'PUT',
+        body: { userId },
+      }),
+      invalidatesTags: ['Group'],
+    }),
+       
+    getOwnedGroups: builder.query({
+      query: () => `${USERS_URL}/groups/owned`,
+    }),
+    getUserTasks: builder.query({
+      query: () => `${USERS_URL}/tasks`,
+      providesTags: ['Tasks'],
+    }),
+    
   
   }),
 });
 
 export const {
-  useLoginMutation,useLogoutMutation,useRegisterMutation,useUpdateUserMutation,useGetTasksQuery,useCreateTaskMutation,useDeleteTaskMutation,useCompleteTaskMutation,useUpdateTaskMutation
+  useLoginMutation,useLogoutMutation,useRegisterMutation,
+  useUpdateUserMutation,useGetTasksQuery,useCreateTaskMutation,useDeleteTaskMutation,
+  useCompleteTaskMutation,useUpdateTaskMutation,useJoinGroupMutation,
+  useGetMyGroupsQuery,useCreateGroupMutation,useDeleteGroupMutation,
+  useRemoveGroupMemberMutation,useGetOwnedGroupsQuery,useGetUserTasksQuery
 } = userApiSlice;

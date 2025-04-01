@@ -38,7 +38,16 @@ res.json({ message: 'Joined group successfully', group: populatedGroup });
 };
 
 export const getMyGroups = async (req, res) => {
-  const groups = await Group.find({ members: req.user._id }).populate('owner', 'name email').populate('members', 'name email');
+  const groups = await Group.find({ members: req.user._id })
+    .populate('owner', 'name email')
+    .populate('members', 'name email');
+
+  res.json(groups);
+};
+export const getOwnedGroups = async (req, res) => {
+  const groups = await Group.find({ owner: req.user._id })
+    .populate('members', 'name email');
+
   res.json(groups);
 };
 
