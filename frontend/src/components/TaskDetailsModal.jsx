@@ -1,7 +1,10 @@
 import React, { useEffect, useRef } from 'react';
+import { useState } from 'react';
+import PublishTaskModal from './PublishTaskModal';
 
 const TaskDetailsModal = ({ isOpen, task, onClose, onComplete, onEdit, onDelete })  => {
   const dialogRef = useRef();
+  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -35,7 +38,16 @@ const TaskDetailsModal = ({ isOpen, task, onClose, onComplete, onEdit, onDelete 
           {task.status !== 'Completed' && (
             <button onClick={() => onComplete(task._id)}>Mark as Complete</button>
           )}
+          {(task.visibility === 'private' ||task.visibility === 'public' ) && (
+  <button
+    style={{ marginLeft: '10px', backgroundColor: '#007bff', color: 'white' }}
+    onClick={() => setIsPublishModalOpen(true)}
+  >
+    Publish to Group
+  </button>
+)}
           <button onClick={() => onEdit(task)}>Edit</button>
+          
           <button onClick={onClose} style={{ marginLeft: '10px' }}>Close</button>
         
         <button
@@ -50,6 +62,17 @@ const TaskDetailsModal = ({ isOpen, task, onClose, onComplete, onEdit, onDelete 
   Delete
 </button>
 </div>
+{isPublishModalOpen && (
+  <PublishTaskModal
+    isOpen={isPublishModalOpen}
+    task={task}
+    onClose={() => setIsPublishModalOpen(false)}
+    onPublish={() => {
+      setIsPublishModalOpen(false);
+      onClose(); // Close the main modal too, or trigger a refetch from parent
+    }}
+  />
+)}
       </dialog>
     </>
   );

@@ -31,12 +31,8 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     getTasks: builder.query({
-      
-      
       query: (visibility) => `api/users/tasks/my-tasks?visibility=${visibility}`, 
       providesTags: ['Task'],
-      
-      
     }),
    
 

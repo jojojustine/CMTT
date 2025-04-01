@@ -8,6 +8,7 @@ import {
 import EditTaskModal from './EditTaskModel';
 import { toast } from 'react-toastify';
 import TaskDetailsModal from './TaskDetailsModal';
+import PublishTaskModal from './PublishTaskModal';
 
 const TaskList = () => {
   const [visibilityFilter, setVisibilityFilter] = useState('all');
@@ -15,6 +16,8 @@ const TaskList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [detailTask, setDetailTask] = useState(null);
+  const [publishTask, setPublishTask] = useState(null);
+
 
   const { data: tasks = [], isLoading, isError, error, refetch } = useGetTasksQuery(visibilityFilter);
   const [updateTask] = useUpdateTaskMutation();
