@@ -77,7 +77,9 @@ else {
 
     
     // Fetch tasks with the filter
-    const tasks = await Task.find(filter).populate('completedBy', '_id');
+    const tasks = await Task.find(filter)
+  .populate('completedBy', '_id')
+  .populate('group', 'name');
 
     res.json(tasks);
   } catch (error) {

@@ -25,6 +25,9 @@ const TaskDetailsModal = ({ isOpen, task, onClose, onComplete, onEdit, onDelete 
         <p><strong>Description:</strong> {task.description}</p>
         <p><strong>Tags:</strong> {task.tags?.join(', ') || 'None'}</p>
         <p><strong>Visibility:</strong> {task.visibility}</p>
+        {task.visibility === 'group' && task.group && (
+  <p><strong>Published in group:</strong> {task.group.name}</p>
+)}
         <p><strong>Resource:</strong> 
           {task.resourceLink ? (
             <a href={task.resourceLink} target="_blank" rel="noopener noreferrer">{task.resourceLink}</a>
