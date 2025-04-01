@@ -3,17 +3,38 @@ import User from '../models/userModel.js';
 
 export const createGroup = async (req, res) => {
   const { name } = req.body;
+  const generateJoinCode = () => Math.random().toString(36).substring(2, 8).toUpperCase();
 
   if (!name) return res.status(400).json({ message: 'Group name is required' });
 
   const group = new Group({
     name,
     owner: req.user._id,
-    members: [req.user._id]
-  });
+    members: [req.user._id],
+    joinCode: generateJoinCode()
+  });  
 
   const createdGroup = await group.save();
+  
   res.status(201).json(createdGroup);
+};
+export const joinGroupByCode = async (req, res) => {
+  const { code } = req.body;
+
+  const group = await Group.findOne({ joinCode: code });
+  if (!group) return res.status(404).json({ message: 'Invalid code' });
+
+  if (!group.members.includes(req.user._id)) {
+    group.members.push(req.user._id);
+    await group.save();
+  }
+
+  const populatedGroup = await Group.findById(group._id)
+  .populate('owner', 'name email')
+  .populate('members', 'name email');
+
+res.json({ message: 'Joined group successfully', group: populatedGroup });
+
 };
 
 export const getMyGroups = async (req, res) => {

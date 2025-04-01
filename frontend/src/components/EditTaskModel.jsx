@@ -12,7 +12,6 @@ const EditTaskModal = ({ isOpen, onClose, task, onSave }) => {
     resourceLink: ''
   });
 
-  // When task is loaded into modal
   useEffect(() => {
     if (task) {
       const adjustedStatus = task.status === 'complete' ? 'published' : task.status;
@@ -23,12 +22,11 @@ const EditTaskModal = ({ isOpen, onClose, task, onSave }) => {
         status: adjustedStatus,
         visibility: task.visibility || '',
         tags: task.tags?.join(', ') || '',
-         resourceLink: task.resourceLink || ''
+        resourceLink: task.resourceLink || ''
       });
     }
   }, [task]);
 
-  // Show or close the dialog
   useEffect(() => {
     const dialog = dialogRef.current;
     if (isOpen && dialog) {
@@ -62,60 +60,92 @@ const EditTaskModal = ({ isOpen, onClose, task, onSave }) => {
             backdrop-filter: blur(5px);
             background-color: rgba(0, 0, 0, 0.3);
           }
+          input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+          }
+          form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+          }
         `}
       </style>
 
-      <dialog ref={dialogRef}>
+      <dialog
+        ref={dialogRef}
+        style={{
+          width: '75%',
+          maxWidth: '900px',
+          padding: '25px',
+          borderRadius: '10px'
+        }}
+      >
         <h2>Edit Task</h2>
+
         <form onSubmit={handleSubmit} method="dialog">
-          <input
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            placeholder="Title"
-          /><br />
+  <label>Title</label>
+  <input
+    name="title"
+    value={formData.title}
+    onChange={handleChange}
+    placeholder="Enter task title"
+  />
 
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Description"
-          /><br />
+  <label>Description</label>
+  <textarea
+    name="description"
+    value={formData.description}
+    onChange={handleChange}
+    placeholder="Enter description"
+    rows={5}
+  />
 
-          <label>Status (auto-managed):</label><br />
-          <input
-            name="status"
-            value={formData.status}
-            readOnly
-            disabled
-          /><br />
+  <label>Status (auto-managed)</label>
+  <input
+    name="status"
+    value={formData.status}
+    readOnly
+    disabled
+  />
 
-          <input
-            name="visibility"
-            value={formData.visibility}
-            onChange={handleChange}
-            placeholder="Visibility"
-          /><br />
-
-          <input
-            name="tags"
-            value={formData.tags}
-            onChange={handleChange}
-            placeholder="Tags (comma-separated)"
-          /><br />
-          <input
-  name="resourceLink"
-  value={formData.resourceLink}
+<label>Visibility</label>
+<select
+  name="visibility"
+  value={formData.visibility}
   onChange={handleChange}
-  placeholder="Resource Link (optional)"
-/><br />
+>
+  <option value="private">Private</option>
+  <option value="public">Public</option>
+</select>
 
+  <label>Tags (comma-separated)</label>
+  <input
+    name="tags"
+    value={formData.tags}
+    onChange={handleChange}
+    placeholder="e.g. important, project X"
+  />
 
-          <div style={{ marginTop: '10px' }}>
-            <button type="submit">Save</button>
-            <button type="button" onClick={onClose} style={{ marginLeft: '10px' }}>Cancel</button>
-          </div>
-        </form>
+  <label>Resource Link (optional)</label>
+  <input
+    name="resourceLink"
+    value={formData.resourceLink}
+    onChange={handleChange}
+    placeholder="https://example.com/resource"
+  />
+
+  <div style={{ textAlign: 'right', marginTop: '15px' }}>
+    <button type="submit">💾 Save</button>
+    <button type="button" onClick={onClose} style={{ marginLeft: '10px' }}>❌ Cancel</button>
+  </div>
+</form>
+
       </dialog>
     </>
   );

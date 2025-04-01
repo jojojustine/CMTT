@@ -13,7 +13,11 @@ const groupSchema = new mongoose.Schema({
   members: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-  }]
+  }],
+  joinCode: {
+    type: String,
+    unique: true
+  },
 }, { timestamps: true });
 
 export default mongoose.model('Group', groupSchema);
