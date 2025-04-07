@@ -18,9 +18,12 @@ const RegisterScreen = () => {
     const[register, {isLoading}]= useRegisterMutation();
     useEffect(() => {
         if (userInfo) {
-          navigate('/home');
+            console.log('User already logged in. Navigating to /tasks...');
+            navigate('/tasks', { replace: true });
+            window.location.href = '/tasks'; 
+
         }
-      }, [navigate, userInfo]);
+      }, [userInfo]);
     const submitHandler = async (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
@@ -29,7 +32,8 @@ const RegisterScreen = () => {
             try {
               const res = await register({ name, email, password }).unwrap();
               dispatch(setCredentials({ ...res }));
-              navigate('/');
+            //   console.log("Registered successfully, navigating to /tasks...");
+            //   navigate('/tasks', { replace: true });
             } catch (err) {
               toast.error(err?.data?.message || err.error);
             }
@@ -82,7 +86,7 @@ const RegisterScreen = () => {
                     type='submit'
                     variant='primary'
                     className='mt-3'
-                >
+             e   >
                 Sign Up
                 </Button>
             </Form>
