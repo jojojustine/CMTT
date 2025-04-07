@@ -3,10 +3,14 @@ import { protect } from '../middleware/authMiddleware.js';
 import {
   createGroup,
   getMyGroups,
-  inviteToGroup,joinGroupByCode,
+  inviteToGroup,
+  joinGroupByCode,
   removeFromGroup,
-  deleteGroup,getOwnedGroups
+  deleteGroup,
+  getOwnedGroups,
+  getGroupDetailsWithTasks, // ✅ Add this
 } from '../controllers/groupController.js';
+
 
 const router = express.Router();
 
@@ -17,5 +21,6 @@ router.put('/:groupId/invite', protect, inviteToGroup);
 router.post('/join', protect, joinGroupByCode);
 router.put('/:groupId/remove', protect, removeFromGroup);
 router.delete('/:groupId', protect, deleteGroup);
+router.get('/:id/details', protect, getGroupDetailsWithTasks);
 
 export default router;

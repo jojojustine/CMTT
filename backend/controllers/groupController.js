@@ -1,6 +1,6 @@
 import Group from '../models/groupModel.js';
 import User from '../models/userModel.js';
-
+import Task from '../models/taskModel.js'; // make sure this is at the top
 export const createGroup = async (req, res) => {
   const { name } = req.body;
   const generateJoinCode = () => Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -111,4 +111,27 @@ export const deleteGroup = async (req, res) => {
 
   await group.deleteOne();
   res.json({ message: 'Group deleted' });
+};
+
+
+export const getGroupDetailsWithTasks = async (req, res) => {
+  try {
+    const groupId = req.params.id;
+
+    const group = await Group.findById(groupId)
+      .populate('owner', 'name email')
+      .populate('members', 'name email');
+
+    if (!group) {
+      return res.status(404).json({ message: 'Group not found' });
+    }
+
+    const tasks = await Task.find({ group: groupId })
+      .populate('completedBy', 'name email')
+      .populate('owner', 'name email');
+
+    res.json({ group, tasks });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch group details', error: error.message });
+  }
 };
