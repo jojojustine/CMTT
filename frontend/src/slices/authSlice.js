@@ -1,9 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const safeParse = (key) => {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
+  } catch (error) {
+    console.error(`Error parsing ${key}:`, error);
+    return null; // Return null if JSON parsing fails
+  }
+};
+
 const initialState = {
-  userInfo: localStorage.getItem('userInfo')
-    ? JSON.parse(localStorage.getItem('userInfo'))
-    : null,
+  userInfo: safeParse('userInfo'), // Using safeParse for error handling
 };
 
 const authSlice = createSlice({

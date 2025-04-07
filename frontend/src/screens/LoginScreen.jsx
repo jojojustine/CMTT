@@ -26,7 +26,7 @@ const LoginScreen = () => {
         try {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
-      navigate('/home');
+      navigate('/tasks');
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }

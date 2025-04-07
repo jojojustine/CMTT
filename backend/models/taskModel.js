@@ -1,5 +1,5 @@
 // backend/models/taskModel.js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';  // Use ES Module syntax
 
 const taskSchema = new mongoose.Schema({
   title: {
@@ -26,13 +26,23 @@ const taskSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum : ['Draft','Published']
+    enum : ['Draft','Published',"Completed"]
   },
+  group: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Group',
+    default: null,
+  },  
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-  }
+  },completedBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: [],
+  }],
+  
 }, { timestamps: true });
 
-module.exports = mongoose.model('Task', taskSchema);
+export default mongoose.model('Task', taskSchema); // Use default export
