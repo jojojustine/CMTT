@@ -16,7 +16,7 @@ const LoginScreen = () => {
     const {userInfo} = useSelector((state) => state.auth);
     useEffect(() => {
         if (userInfo) {
-          navigate('/home');
+          navigate('/tasks');
         }
       }, [navigate, userInfo]);
 
