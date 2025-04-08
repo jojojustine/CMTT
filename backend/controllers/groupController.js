@@ -115,23 +115,28 @@ export const deleteGroup = async (req, res) => {
 
 
 export const getGroupDetailsWithTasks = async (req, res) => {
-  try {
-    const groupId = req.params.id;
+  const groupId = req.params.id;
 
-    const group = await Group.findById(groupId)
-      .populate('owner', 'name email')
-      .populate('members', 'name email');
+  const group = await Group.findById(groupId)
+    .populate('owner', 'name email')
+    .populate('members', 'name email');
 
-    if (!group) {
-      return res.status(404).json({ message: 'Group not found' });
-    }
-
-    const tasks = await Task.find({ group: groupId })
-      .populate('completedBy', 'name email')
-      .populate('owner', 'name email');
-
-    res.json({ group, tasks });
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch group details', error: error.message });
+  if (!group) {
+    return res.status(404).json({ message: 'Group not found' });
   }
+
+  const isAuthorized =
+    group.owner._id.equals(req.user._id) ||
+    group.members.some((member) => member._id.equals(req.user._id));
+
+  if (!isAuthorized) {
+    return res.status(403).json({ message: 'Access denied. You are not a member or owner of this group.' });
+  }
+
+  const tasks = await Task.find({ group: groupId })
+    .populate('completedBy', 'name email')
+    .populate('owner', 'name email');
+
+  res.json({ group, tasks });
 };
+

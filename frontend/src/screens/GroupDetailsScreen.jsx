@@ -9,9 +9,10 @@ const GroupDetailsScreen = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("Received groupId from URL:", groupId);
     const fetchGroupDetails = async () => {
       try {
-        const response = await fetch(`/api/groups/${groupId}/details`);
+        const response = await fetch(`/api/users/groups/${groupId}/details`);
         if (!response.ok) {
           throw new Error('Failed to fetch');
         }
