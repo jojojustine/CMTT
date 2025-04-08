@@ -60,7 +60,6 @@ const TaskForm = () => {
         required
       >
         <option value="private">Private</option>
-        <option value="group">Group</option>
         <option value="public">Public</option>
       </select>
       <input

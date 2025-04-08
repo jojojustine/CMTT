@@ -9,6 +9,7 @@ import EditTaskModal from './EditTaskModel';
 import { toast } from 'react-toastify';
 import TaskDetailsModal from './TaskDetailsModal';
 import PublishTaskModal from './PublishTaskModal';
+import { useSelector } from 'react-redux';
 
 const TaskList = () => {
   const [visibilityFilter, setVisibilityFilter] = useState('all');
@@ -23,6 +24,7 @@ const TaskList = () => {
   const [updateTask] = useUpdateTaskMutation();
   const [completeTask] = useCompleteTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
+  const { userInfo } = useSelector((state) => state.auth);
 
   const handleEditClick = (task) => {
     setSelectedTask(task);
