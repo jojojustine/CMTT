@@ -1,6 +1,6 @@
 import Group from '../models/groupModel.js';
 import User from '../models/userModel.js';
-
+import Task from '../models/taskModel.js'; // make sure this is at the top
 export const createGroup = async (req, res) => {
   const { name } = req.body;
   const generateJoinCode = () => Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -112,3 +112,31 @@ export const deleteGroup = async (req, res) => {
   await group.deleteOne();
   res.json({ message: 'Group deleted' });
 };
+
+
+export const getGroupDetailsWithTasks = async (req, res) => {
+  const groupId = req.params.id;
+
+  const group = await Group.findById(groupId)
+    .populate('owner', 'name email')
+    .populate('members', 'name email');
+
+  if (!group) {
+    return res.status(404).json({ message: 'Group not found' });
+  }
+
+  const isAuthorized =
+    group.owner._id.equals(req.user._id) ||
+    group.members.some((member) => member._id.equals(req.user._id));
+
+  if (!isAuthorized) {
+    return res.status(403).json({ message: 'Access denied. You are not a member or owner of this group.' });
+  }
+
+  const tasks = await Task.find({ group: groupId })
+    .populate('completedBy', 'name email')
+    .populate('owner', 'name email');
+
+  res.json({ group, tasks });
+};
+

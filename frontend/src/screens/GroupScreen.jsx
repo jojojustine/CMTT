@@ -8,12 +8,13 @@ import {
   useRemoveGroupMemberMutation
 } from '../slices/usersApiSlice';
 import GroupDetailsModal from '../components/GroupDetailsModal';
-
+import { useNavigate } from 'react-router-dom';
 const GroupScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const [code, setCode] = useState('');
   const [groupName, setGroupName] = useState('');
-  const [selectedGroup, setSelectedGroup] = useState(null);
+  // const [selectedGroup, setSelectedGroup] = useState(null);
+  const navigate = useNavigate(); 
 
   const { data: groups = [], refetch } = useGetMyGroupsQuery();
   const [createGroup] = useCreateGroupMutation();
@@ -118,7 +119,8 @@ const GroupScreen = () => {
             <p><strong>Join Code:</strong> {group.owner._id === userInfo._id ? group.joinCode : 'Hidden'}</p>
             <button
               className="btn btn-outline-info btn-sm"
-              onClick={() => setSelectedGroup(group)}
+              onClick={() => navigate(`/groups/${group._id}`)}
+
             >
               View Group
             </button>
@@ -126,7 +128,7 @@ const GroupScreen = () => {
         ))
       )}
 
-      {/* Group Details Popup */}
+      {/* Group Details Popup
       <GroupDetailsModal
         isOpen={!!selectedGroup}
         onClose={() => setSelectedGroup(null)}
@@ -134,7 +136,7 @@ const GroupScreen = () => {
         userInfo={userInfo}
         onDeleteGroup={handleDeleteGroup}
         onRemoveMember={handleRemoveMember}
-      />
+      /> */}
     </div>
   );
 };
