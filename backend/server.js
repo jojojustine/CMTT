@@ -8,6 +8,7 @@ import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 import groupRoutes from './routes/groupRoutes.js';
 import morgan from 'morgan';
+import contactRoutes from './routes/contactRoutes.js';
 
 
 dotenv.config();  // Load environment variables from .env file
@@ -35,6 +36,7 @@ app.use(cookieParser());
 app.use('/api/users', userRoutes);
 app.use('/api/users/tasks', taskRoutes);
 app.use('/api/users/groups', groupRoutes);
+app.use('/api/contact', contactRoutes);
 // Root route to check if the server is up
 app.get('/', (req, res) => res.send('Server is ready'));
 
