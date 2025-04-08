@@ -8,6 +8,7 @@ import {
   useRemoveGroupMemberMutation
 } from '../slices/usersApiSlice';
 import GroupDetailsModal from '../components/GroupDetailsModal';
+import { FaUsers, FaPlusCircle, FaUserPlus, FaUserShield } from 'react-icons/fa';
 
 const GroupScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -68,11 +69,15 @@ const GroupScreen = () => {
 
   return (
     <div className="container mt-4">
-      <h2>Groups</h2>
+      <h2 className="d-flex align-items-center gap-2">
+        <FaUsers /> Groups
+      </h2>
 
       {/* Create Group Form */}
       <div className="mb-4">
-        <label className="form-label">Create New Group</label>
+        <label className="form-label d-flex align-items-center gap-2">
+          <FaPlusCircle /> Create New Group
+        </label>
         <div className="d-flex">
           <input
             type="text"
@@ -89,8 +94,8 @@ const GroupScreen = () => {
 
       {/* Join Group Form */}
       <div className="mb-3">
-        <label htmlFor="codeInput" className="form-label">
-          Join Group by Code
+        <label htmlFor="codeInput" className="form-label d-flex align-items-center gap-2">
+          <FaUserPlus /> Join Group by Code
         </label>
         <div className="d-flex">
           <input
@@ -99,6 +104,7 @@ const GroupScreen = () => {
             className="form-control me-2"
             value={code}
             onChange={(e) => setCode(e.target.value)}
+            placeholder="Enter group code"
           />
           <button className="btn btn-primary" onClick={handleJoin}>
             Join
@@ -107,7 +113,10 @@ const GroupScreen = () => {
       </div>
 
       {/* Group List */}
-      <h4 className="mt-4">My Groups</h4>
+      <h4 className="d-flex align-items-center gap-2 mt-4">
+        <FaUserShield /> My Groups
+      </h4>
+
       {groups.length === 0 ? (
         <p>You are not in any groups yet.</p>
       ) : (

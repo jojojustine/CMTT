@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
 import { useUpdateUserMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
+import { FaUser, FaEnvelope, FaLock, FaCheckCircle } from 'react-icons/fa';
 
 const ProfileScreen = () => {
   const [email, setEmail] = useState('');
@@ -37,7 +38,6 @@ const ProfileScreen = () => {
           email,
           password,
         }).unwrap();
-        console.log(res);
         dispatch(setCredentials(res));
         toast.success('Profile updated successfully');
       } catch (err) {
@@ -45,13 +45,17 @@ const ProfileScreen = () => {
       }
     }
   };
+
   return (
     <FormContainer>
       <h1>Update Profile</h1>
 
       <Form onSubmit={submitHandler}>
         <Form.Group className='my-2' controlId='name'>
-          <Form.Label>Name</Form.Label>
+          <Form.Label>
+            <FaUser className='me-2' />
+            Name
+          </Form.Label>
           <Form.Control
             type='name'
             placeholder='Enter name'
@@ -59,8 +63,12 @@ const ProfileScreen = () => {
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
         </Form.Group>
+
         <Form.Group className='my-2' controlId='email'>
-          <Form.Label>Email Address</Form.Label>
+          <Form.Label>
+            <FaEnvelope className='me-2' />
+            Email Address
+          </Form.Label>
           <Form.Control
             type='email'
             placeholder='Enter email'
@@ -68,8 +76,12 @@ const ProfileScreen = () => {
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
+
         <Form.Group className='my-2' controlId='password'>
-          <Form.Label>Password</Form.Label>
+          <Form.Label>
+            <FaLock className='me-2' />
+            Password
+          </Form.Label>
           <Form.Control
             type='password'
             placeholder='Enter password'
@@ -79,7 +91,10 @@ const ProfileScreen = () => {
         </Form.Group>
 
         <Form.Group className='my-2' controlId='confirmPassword'>
-          <Form.Label>Confirm Password</Form.Label>
+          <Form.Label>
+            <FaCheckCircle className='me-2' />
+            Confirm Password
+          </Form.Label>
           <Form.Control
             type='password'
             placeholder='Confirm password'

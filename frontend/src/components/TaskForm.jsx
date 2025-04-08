@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCreateTaskMutation } from '../slices/usersApiSlice';
+import { FaRegEdit, FaTasks, FaLock, FaLink, FaTags } from 'react-icons/fa';
 
 const TaskForm = () => {
   const [title, setTitle] = useState('');
@@ -8,9 +9,8 @@ const TaskForm = () => {
   const [tags, setTags] = useState('');
   const [resourceLink, setResourceLink] = useState('');
 
-  
   const [createTask] = useCreateTaskMutation();
-  
+
   const resetForm = () => {
     setTitle('');
     setDescription('');
@@ -19,7 +19,7 @@ const TaskForm = () => {
     setResourceLink('');
   };
 
-  const handleSubmit = async (e, status) => {
+  const handleSubmit = async (e, status = 'Published') => {
     e.preventDefault();
 
     const taskData = {
@@ -27,12 +27,12 @@ const TaskForm = () => {
       description,
       visibility,
       tags: tags.split(',').map((tag) => tag.trim()),
-      status,resourceLink
+      resourceLink,
+      status,
     };
 
     try {
-      await createTask(taskData);  // Trigger the API call
-      // Reset form fields after task creation
+      await createTask(taskData);
       resetForm();
     } catch (error) {
       console.error('Error creating task:', error.message);
@@ -41,19 +41,33 @@ const TaskForm = () => {
 
   return (
     <form onSubmit={(e) => handleSubmit(e, 'Published')}>
+      <label className="form-label">
+        <FaRegEdit className="icon" />
+        Task Title
+      </label>
       <input
         type="text"
-        placeholder="Task Title"
+        placeholder="Enter task title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         required
       />
+
+      <label className="form-label">
+        <FaTasks className="icon" />
+        Task Description
+      </label>
       <textarea
-        placeholder="Task Description"
+        placeholder="Describe the task..."
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         required
       />
+
+      <label className="form-label">
+        <FaLock className="icon" />
+        Visibility
+      </label>
       <select
         value={visibility}
         onChange={(e) => setVisibility(e.target.value)}
@@ -63,27 +77,31 @@ const TaskForm = () => {
         <option value="group">Group</option>
         <option value="public">Public</option>
       </select>
-      <input
-  type="text"
-  placeholder="Resource Link (optional)"
-  value={resourceLink}
-  onChange={(e) => setResourceLink(e.target.value)}
-/>
 
+      <label className="form-label">
+        <FaLink className="icon" />
+        Resource Link (optional)
+      </label>
       <input
         type="text"
-        placeholder="Tags (comma separated)"
+        placeholder="e.g. https://example.com"
+        value={resourceLink}
+        onChange={(e) => setResourceLink(e.target.value)}
+      />
+
+      <label className="form-label">
+        <FaTags className="icon" />
+        Tags
+      </label>
+      <input
+        type="text"
+        placeholder="Comma-separated tags"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
       />
+
       <div className="button-group">
         <button type="submit">Create Task</button>
-        {/* <button 
-          type="button" 
-          onClick={(e) => handleSubmit(e, 'Draft')}
-        >
-          Save as Draft
-        </button> */}
       </div>
     </form>
   );

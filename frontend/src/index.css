@@ -1,0 +1,279 @@
+/* 🌐 Global Styling */
+body {
+    background-color: #f3f0ff; /* Soft Lavender */
+    font-family: 'Inter', sans-serif;
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+  }
+  
+  
+  /* 🧭 Page Wrapper */
+  .tasks-screen {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  /* 🧑‍💼 Page Header */
+  .tasks-screen h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e2a38;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  .tasks-screen p {
+    text-align: center;
+    color: #5c6b78;
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* 🧾 Form with border and layout */
+  form {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 100%;
+  }
+  
+  /* 🎨 Label with Icon */
+  .form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+    color: #1e2a38;
+    font-size: 1rem;
+  }
+  
+  .form-label svg {
+    font-size: 1.1rem;
+    color: #0d6efd;
+  }
+  
+  /* ✏️ Inputs */
+  form input,
+  form textarea,
+  form select {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  form textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  /* 🔘 Button */
+  form button {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: fit-content;
+  }
+  
+  form button:hover {
+    background-color: #0b5ed7;
+  }
+  
+  /* 📦 Task Card */
+  .task-card {
+    background-color: #ffffff;
+    border: 1px solid #e3e6ea;
+    border-left: 4px solid #0d6efd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.2rem;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .task-card:hover {
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+  
+  .task-card h3 {
+    margin: 0 0 0.4rem 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  .task-card p {
+    margin: 0;
+    color: #495057;
+  }
+  
+  /* 🔽 Filter Dropdown Styling */
+  .filter-controls {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .filter-controls label {
+    font-weight: 500;
+    color: #2c3e50;
+  }
+  
+  .filter-controls select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  /* 👥 Group Page Headings with Icons */
+h2, h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: #1e2a38;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* 📝 Label Styling With Icons */
+  .form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+    color: #1e2a38;
+    font-size: 1rem;
+  }
+  
+  .form-label svg {
+    font-size: 1.1rem;
+    color: #0d6efd;
+  }
+  
+  /* 🔘 Buttons for Group Actions */
+  .btn-create,
+  .btn-join {
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-create {
+    background-color: #198754;
+    color: white;
+  }
+  
+  .btn-create:hover {
+    background-color: #157347;
+  }
+  
+  .btn-join {
+    background-color: #0d6efd;
+    color: white;
+    margin-left: 0.5rem;
+  }
+  
+  .btn-join:hover {
+    background-color: #0b5ed7;
+  }
+/* 👤 Profile Page Heading */
+h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1e2a38;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  /* 🧑‍💼 Icon-Enhanced Labels */
+  .form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+    color: #1e2a38;
+    font-size: 1rem;
+  }
+  
+  .form-label svg {
+    font-size: 1.1rem;
+    color: #0d6efd;
+  }
+  
+  /* 🔒 Profile Form Styling */
+  form input[type='text'],
+  form input[type='email'],
+  form input[type='password'] {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+  }
+  
+  form input:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+  }
+  
+  /* 🔘 Profile Update Button */
+  button[type='submit'] {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.6rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type='submit']:hover {
+    background-color: #0b5ed7;
+  }
+  .app-wrapper {
+    min-height: 100vh;
+    background-color: #f3f0ff; /* <-- your preferred color */
+  }
+  
