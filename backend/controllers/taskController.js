@@ -131,7 +131,13 @@ export const deleteTask = async (req, res) => {
     if (!task) {
       return res.status(404).json({ message: 'Task not found' });
     }
-
+    if (task.group) {
+      const group = await Group.findById(task.group);
+      if (!group.owner.equals(req.user._id)) {
+        return res.status(403).json({ message: 'Only group owner can perform this action' });
+      }
+    }
+    
     // Check if the user is the owner of the task
     if (task.owner.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: 'Not authorized to delete this task' });
@@ -153,7 +159,13 @@ export const completeTask = async (req, res) => {
     if (!task) {
       return res.status(404).json({ message: 'Task not found' });
     }
-
+    if (task.group) {
+      const group = await Group.findById(task.group);
+      if (!group.owner.equals(req.user._id)) {
+        return res.status(403).json({ message: 'Only group owner can perform this action' });
+      }
+    }
+    
     // ✅ Allow group members or owner to mark as complete
     const isOwner = task.owner.toString() === req.user._id.toString();
     const isGroupTask = task.visibility === 'group';
@@ -177,3 +189,53 @@ export const completeTask = async (req, res) => {
     res.status(500).json({ message: 'Failed to complete task', error: error.message });
   }
 };
+export const markTaskComplete = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    if (!task) return res.status(404).json({ message: 'Task not found' });
+
+    if (task.group) {
+      const group = await Group.findById(task.group);
+      if (!group.owner.equals(req.user._id)) {
+        return res.status(403).json({ message: 'Only group owner can perform this action' });
+      }
+    } else {
+      if (!task.owner.equals(req.user._id)) {
+        return res.status(403).json({ message: 'Not authorized' });
+      }
+    }
+
+    task.status = 'Completed';
+    task.completedBy = req.user._id;
+    await task.save();
+
+    // ✅ Return full populated version after update
+    const updatedTask = await Task.findById(task._id)
+      .populate('owner', 'name email')
+      .populate('group', 'name owner')
+      .populate('completedBy', 'name email');
+
+    res.json(updatedTask); // 👈 this is what you use in setTasks()
+  } catch (error) {
+    res.status(500).json({ message: 'Error marking complete', error: error.message });
+  }
+};
+
+
+export const getTaskById = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id)
+      .populate('owner', 'name email')
+      .populate('group', 'name')
+      .populate('completedBy', 'name email');
+
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    res.json(task);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching task', error: error.message });
+  }
+};
+
