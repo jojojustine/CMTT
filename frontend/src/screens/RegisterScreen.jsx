@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
 import { useRegisterMutation } from '../slices/usersApiSlice';
 import {setCredentials} from '../slices/authSlice';
+import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 const RegisterScreen = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -46,7 +47,10 @@ const RegisterScreen = () => {
             
             <Form onSubmit={submitHandler}>
             <Form.Group className='my-2' controlId='name'>
-                <Form.Label>Name</Form.Label>
+            <Form.Label className="form-label">
+  <FaUser /> Name
+</Form.Label>
+
                 <Form.Control
                     type='text'
                     placeholder='Enter Name'
@@ -55,7 +59,10 @@ const RegisterScreen = () => {
                 ></Form.Control>
                 </Form.Group>
                 <Form.Group className='my-2' controlId='email'>
-                <Form.Label>Email Address</Form.Label>
+                <Form.Label className="form-label">
+  <FaEnvelope /> Email Address
+</Form.Label>
+
                 <Form.Control
                     type='email'
                     placeholder='Enter email'
@@ -64,7 +71,10 @@ const RegisterScreen = () => {
                 ></Form.Control>
                 </Form.Group>
                 <Form.Group className='my-2' controlId='password'>
-                    <Form.Label>Password</Form.Label>
+                <Form.Label className="form-label">
+  <FaLock /> Password
+</Form.Label>
+
                     <Form.Control
                         type='password'
                         placeholder='Enter password'

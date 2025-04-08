@@ -1,0 +1,16 @@
+/* index.css */
+body {
+  background: linear-gradient(to right, #a0c4ff, #c5b9f7); 
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+/* Adding space between icon and input field */
+.form-group .form-control {
+  margin-left: 10px; 
+}
+
+/* Alternatively, you can add padding to the icons */
+.form-group .icon {
+  padding-right: 10px; 
+}

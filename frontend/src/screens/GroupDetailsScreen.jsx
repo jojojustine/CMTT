@@ -6,6 +6,7 @@ import {
     useCompleteTaskMutation,
     useDeleteTaskMutation,
   } from '../slices/usersApiSlice';
+  import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 const GroupDetailsScreen = () => {
   const { groupId } = useParams();
   const { userInfo } = useSelector((state) => state.auth);

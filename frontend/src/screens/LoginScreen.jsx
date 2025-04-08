@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../slices/usersApiSlice';
 import {setCredentials} from '../slices/authSlice';
 import { toast } from 'react-toastify';
+import { FaUser, FaEnvelope, FaLock, FaEye, FaCheckCircle } from 'react-icons/fa';
+
 import Loader from '../components/Loader'
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
@@ -38,7 +40,10 @@ const LoginScreen = () => {
             
             <Form onSubmit={submitHandler}>
                 <Form.Group className='my-2' controlId='email'>
-                <Form.Label>Email Address</Form.Label>
+                <Form.Label className="form-label">
+  <FaEnvelope className="icon" /> Email Address
+</Form.Label>
+
                 <Form.Control
                     type='email'
                     placeholder='Enter email'
@@ -47,7 +52,10 @@ const LoginScreen = () => {
                 ></Form.Control>
                 </Form.Group>
                 <Form.Group className='my-2' controlId='password'>
-                    <Form.Label>Password</Form.Label>
+                <Form.Label className="form-label">
+  <FaLock className="icon" /> Password
+</Form.Label>
+
                     <Form.Control
                         type='password'
                         placeholder='Enter password'

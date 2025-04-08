@@ -10,6 +10,7 @@ import store from './store';
 import { Provider } from 'react-redux';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 
 import App from './App.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';  // Import PrivateRoute

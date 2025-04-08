@@ -8,13 +8,15 @@ import {
   useRemoveGroupMemberMutation
 } from '../slices/usersApiSlice';
 import GroupDetailsModal from '../components/GroupDetailsModal';
+import { FaUser, FaEnvelope, FaLock, FaEye, FaCheckCircle, FaUsers } from 'react-icons/fa';
+
 import { useNavigate } from 'react-router-dom';
+
 const GroupScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const [code, setCode] = useState('');
   const [groupName, setGroupName] = useState('');
-  // const [selectedGroup, setSelectedGroup] = useState(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const { data: groups = [], refetch } = useGetMyGroupsQuery();
   const [createGroup] = useCreateGroupMutation();
@@ -49,7 +51,6 @@ const GroupScreen = () => {
       try {
         await deleteGroup(groupId).unwrap();
         refetch();
-        setSelectedGroup(null);
       } catch (err) {
         alert('Failed to delete group');
       }
@@ -69,7 +70,11 @@ const GroupScreen = () => {
 
   return (
     <div className="container mt-4">
-      <h2>Groups</h2>
+      {/* Updated Groups Heading with Icon and Spacing */}
+      <h2 className="d-flex align-items-center">
+        <FaUsers className="me-3" /> {/* Increased space by changing me-2 to me-3 */}
+        Groups
+      </h2>
 
       {/* Create Group Form */}
       <div className="mb-4">
@@ -120,23 +125,12 @@ const GroupScreen = () => {
             <button
               className="btn btn-outline-info btn-sm"
               onClick={() => navigate(`/groups/${group._id}`)}
-
             >
               View Group
             </button>
           </div>
         ))
       )}
-
-      {/* Group Details Popup
-      <GroupDetailsModal
-        isOpen={!!selectedGroup}
-        onClose={() => setSelectedGroup(null)}
-        group={selectedGroup}
-        userInfo={userInfo}
-        onDeleteGroup={handleDeleteGroup}
-        onRemoveMember={handleRemoveMember}
-      /> */}
     </div>
   );
 };
