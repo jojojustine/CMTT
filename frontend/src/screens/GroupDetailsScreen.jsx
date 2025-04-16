@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Card, ListGroup, Spinner } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import '../GroupDetailsScreen.css';
 import {
     useCompleteTaskMutation,
     useDeleteTaskMutation,
@@ -70,7 +71,7 @@ const GroupDetailsScreen = () => {
 
   return (
     <div>
-      <h2>Group: {group.name}</h2>
+      <h2 className="group-title">Group: {group.name}</h2>
       <p>Owner: {group.owner?.name}</p>
 
       <Card className='mb-4'>
@@ -82,7 +83,7 @@ const GroupDetailsScreen = () => {
         </ListGroup>
       </Card>
 
-      <h3>Tasks in this group</h3>
+      <h3 className="task-section-title">Tasks in this group</h3>
 {tasks.length > 0 ? (
   <ListGroup>
     {tasks.map(task => (
