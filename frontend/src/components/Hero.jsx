@@ -126,8 +126,9 @@ const Hero = () => {
             <h1 className="fw-bold mb-4 display-4" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
               Collaborative Task Management Made Simple
             </h1>
+            
             <p className="lead mb-5 fs-3" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>
-              CMTT helps teams and individuals organize, share, and complete tasks with flexible privacy controls and powerful collaboration features.
+              SYNCIFY helps teams and individuals organize, share, and complete tasks with flexible privacy controls and powerful collaboration features.
             </p>
             <div className="d-flex justify-content-center gap-3">
               <LinkContainer to="/login">
@@ -178,12 +179,12 @@ const Hero = () => {
                 background: 'linear-gradient(90deg, #667eea, #764ba2, #ff758c)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
-              }}>CMTT</span>
+              }}>SYNCIFY</span>
             </h2>
             <Row className="justify-content-center">
               <Col md={10} lg={8}>
                 <p className="lead mb-4" style={{ color: '#495057' }}>
-                  CMTT (Collaborative Management of Tasks Tool) is designed to streamline task management with powerful collaboration features. 
+                  SYNCIFY is designed to streamline task management with powerful collaboration features. 
                   Create tasks with titles, descriptions, and resource links, then choose who can access them - keep them private, 
                   share with specific groups, or make them public.
                   <p></p>
@@ -442,7 +443,7 @@ const Hero = () => {
       }}>
         <Container>
           <div className="text-center">
-            <p className="mb-0">&copy; {new Date().getFullYear()} CMTT - Collaborative Task Manager. All rights reserved.</p>
+            <p className="mb-0">&copy; {new Date().getFullYear()} SYNCIFY - Collaborative Task Manager. All rights reserved.</p>
           </div>
         </Container>
       </footer>

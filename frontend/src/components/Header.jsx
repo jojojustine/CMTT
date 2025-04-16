@@ -25,7 +25,16 @@ const Header = () => {
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
-          <Navbar.Brand >CMTT</Navbar.Brand>
+<Navbar.Brand>
+  <img
+    src="/images/logo.png"
+    alt="Syncify Logo"
+    height="40"
+    width="80"
+    className="d-inline-block align-top"
+  />
+</Navbar.Brand>
+
           </LinkContainer>
         
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -37,10 +46,10 @@ const Header = () => {
                     <LinkContainer to='/tasks'>
                       <NavDropdown.Item>Tasks</NavDropdown.Item>
                     </LinkContainer>
+                    <NavDropdown.Item as={Link} to='/groups'>Groups</NavDropdown.Item>
                     <LinkContainer to='/profile'>
                       <NavDropdown.Item>Profile</NavDropdown.Item>
                     </LinkContainer>
-                    <NavDropdown.Item as={Link} to='/groups'>Groups</NavDropdown.Item>
                     <NavDropdown.Item onClick={logoutHandler}>
                       Logout
                     </NavDropdown.Item>

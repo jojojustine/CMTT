@@ -108,20 +108,31 @@ const GroupScreen = () => {
 
     <h4 className="mt-4">My Groups</h4>
     {groups.length === 0 ? (
-      <p>You are not in any groups yet.</p>
-    ) : (
-      groups.map((group) => (
-        <div key={group._id} className={styles.groupCard}>
-          <h5>{group.name}</h5>
-          <p><strong>Owner:</strong> {group.owner.name}</p>
-          <p><strong>Join Code:</strong> {group.owner._id === userInfo._id ? group.joinCode : 'Hidden'}</p>
+  <p>You are not in any groups yet.</p>
+) : (
+  groups.map((group) => (
+    <div key={group._id} className={styles.groupCard}>
+      <h5>{group.name}</h5>
+      <p><strong>Owner:</strong> {group.owner.name}</p>
+      <p><strong>Join Code:</strong> {group.owner._id === userInfo._id ? group.joinCode : 'Hidden'}</p>
+      <div className="d-flex gap-2">
+        <button
+          className="btn btn-outline-info btn-sm"
+          onClick={() => navigate(`/groups/${group._id}`)}
+        >
+          View Group
+        </button>
+
+        {group.owner._id === userInfo._id && (
           <button
-            className="btn btn-outline-info btn-sm"
-            onClick={() => navigate(`/groups/${group._id}`)}
+            className="btn btn-outline-danger btn-sm"
+            onClick={() => handleDeleteGroup(group._id)}
           >
-            View Group
+            Delete Group
           </button>
-        </div>
+        )}
+      </div>
+    </div>
       ))
     )}
   </div>
