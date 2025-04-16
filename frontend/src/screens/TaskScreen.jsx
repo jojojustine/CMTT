@@ -4,7 +4,7 @@ import TaskList from '../components/TaskList';
 import { useSelector } from 'react-redux';
 import { useCreateTaskMutation, useDeleteTaskMutation, useCompleteTaskMutation } from '../slices/usersApiSlice';
 import { FaCheckCircle, FaEdit, FaTrash } from 'react-icons/fa';
-
+import "../index2.css"; 
 const TasksScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const [createTask] = useCreateTaskMutation();
@@ -34,7 +34,7 @@ const TasksScreen = () => {
   return (
     <div className="tasks-screen">
       <h1>Welcome, {userInfo?.name || 'User'}</h1>
-      <p>Manage your tasks below:</p>
+      <p>Organize, track, and complete your tasks efficiently:</p>
       <TaskForm onAddTask={addTask} />
       <TaskList
         onToggleComplete={toggleComplete}

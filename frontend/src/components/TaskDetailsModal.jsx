@@ -41,7 +41,7 @@ const TaskDetailsModal = ({ isOpen, task, onClose, onComplete, onEdit, onDelete 
           {task.status !== 'Completed' && (
             <button onClick={() => onComplete(task._id)}>Mark as Complete</button>
           )}
-          {(task.visibility === 'private' ||task.visibility === 'public' ) && (
+          {(task.visibility === 'private' ) && (
   <button
     style={{ marginLeft: '10px', backgroundColor: '#007bff', color: 'white' }}
     onClick={() => setIsPublishModalOpen(true)}

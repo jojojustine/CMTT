@@ -9,8 +9,8 @@ import {
 } from '../slices/usersApiSlice';
 import GroupDetailsModal from '../components/GroupDetailsModal';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaCheckCircle, FaUsers } from 'react-icons/fa';
-
 import { useNavigate } from 'react-router-dom';
+import styles from '../GroupScreen.module.css';
 
 const GroupScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -71,66 +71,62 @@ const GroupScreen = () => {
   return (
     <div className="container mt-4">
       {/* Updated Groups Heading with Icon and Spacing */}
-      <h2 className="d-flex align-items-center">
-        <FaUsers className="me-3" /> {/* Increased space by changing me-2 to me-3 */}
-        Groups
-      </h2>
+      
 
-      {/* Create Group Form */}
-      <div className="mb-4">
-        <label className="form-label">Create New Group</label>
-        <div className="d-flex">
-          <input
-            type="text"
-            className="form-control me-2"
-            value={groupName}
-            onChange={(e) => setGroupName(e.target.value)}
-            placeholder="Enter group name"
-          />
-          <button className="btn btn-success" onClick={handleCreateGroup}>
-            Create
+      
+      <div className={styles.wrapper}>
+  <div className={styles.container}>
+    <h2 className={styles.heading}>
+      <FaUsers className={styles.icon} />
+      Groups
+    </h2>
+
+    <label className={styles.label}>Create New Group</label>
+    <div className="d-flex">
+      <input
+        className={styles.input}
+        value={groupName}
+        onChange={(e) => setGroupName(e.target.value)}
+        placeholder="Enter group name"
+      />
+      <button className={`${styles.button} ${styles.success}`} onClick={handleCreateGroup}>
+        Create
+      </button>
+    </div>
+
+    <label className={styles.label}>Join Group by Code</label>
+    <div className="d-flex">
+      <input
+        className={styles.input}
+        value={code}
+        onChange={(e) => setCode(e.target.value)}
+      />
+      <button className={`${styles.button} ${styles.primary}`} onClick={handleJoin}>
+        Join
+      </button>
+    </div>
+
+    <h4 className="mt-4">My Groups</h4>
+    {groups.length === 0 ? (
+      <p>You are not in any groups yet.</p>
+    ) : (
+      groups.map((group) => (
+        <div key={group._id} className={styles.groupCard}>
+          <h5>{group.name}</h5>
+          <p><strong>Owner:</strong> {group.owner.name}</p>
+          <p><strong>Join Code:</strong> {group.owner._id === userInfo._id ? group.joinCode : 'Hidden'}</p>
+          <button
+            className="btn btn-outline-info btn-sm"
+            onClick={() => navigate(`/groups/${group._id}`)}
+          >
+            View Group
           </button>
         </div>
-      </div>
+      ))
+    )}
+  </div>
+</div>
 
-      {/* Join Group Form */}
-      <div className="mb-3">
-        <label htmlFor="codeInput" className="form-label">
-          Join Group by Code
-        </label>
-        <div className="d-flex">
-          <input
-            type="text"
-            id="codeInput"
-            className="form-control me-2"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-          />
-          <button className="btn btn-primary" onClick={handleJoin}>
-            Join
-          </button>
-        </div>
-      </div>
-
-      {/* Group List */}
-      <h4 className="mt-4">My Groups</h4>
-      {groups.length === 0 ? (
-        <p>You are not in any groups yet.</p>
-      ) : (
-        groups.map((group) => (
-          <div key={group._id} className="card mb-3 p-3">
-            <h5>{group.name}</h5>
-            <p><strong>Owner:</strong> {group.owner.name}</p>
-            <p><strong>Join Code:</strong> {group.owner._id === userInfo._id ? group.joinCode : 'Hidden'}</p>
-            <button
-              className="btn btn-outline-info btn-sm"
-              onClick={() => navigate(`/groups/${group._id}`)}
-            >
-              View Group
-            </button>
-          </div>
-        ))
-      )}
     </div>
   );
 };

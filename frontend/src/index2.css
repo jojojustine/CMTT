@@ -1,0 +1,39 @@
+
+body {
+    background: linear-gradient(to right, #a0c4ff, #c5b9f7);
+    background-image: url('/images/bg1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+  }
+
+  .tasks-screen {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(to right, #a0c4ff, #c5b9f7);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tasks-screen h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    background: linear-gradient(to left, #7B6EF6, #5e53c1);
+    -webkit-background-clip: text; /* Fix with vendor prefix */
+    background-clip: text; /* For modern browsers */
+    color: transparent;
+    animation: fadeIn 2s ease-in-out;
+  }
+  
+  .tasks-screen p {
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1.1rem;
+    color:#7B6EF6;
+    margin-bottom: 2rem;
+  }
+ 

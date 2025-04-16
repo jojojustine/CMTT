@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import TaskDetailsModal from './TaskDetailsModal';
 import PublishTaskModal from './PublishTaskModal';
 import { useSelector } from 'react-redux';
+import "../index1.css";
 
 const TaskList = () => {
   const [visibilityFilter, setVisibilityFilter] = useState('all');
