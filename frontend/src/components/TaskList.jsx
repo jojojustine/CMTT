@@ -98,26 +98,19 @@ const TaskList = () => {
       {tasks.length === 0 ? (
         <p>No tasks found.</p>
       ) : (
-        <div className="tasks-container">
-          {tasks.map((task) => (
-            <div
-              key={task._id}
-              className="task-card"
-              onClick={() => handleTaskClick(task)}
-              style={{
-                cursor: 'pointer',
-                border: '1px solid #ccc',
-                borderRadius: '6px',
-                padding: '10px',
-                marginBottom: '10px',
-                backgroundColor: '#f9f9f9',
-              }}
-            >
-              <h3>{task.title}</h3>
-              <p>{task.description}</p>
-            </div>
-          ))}
-        </div>
+        <ol className="task-step-list">
+  {tasks.map((task, index) => (
+    <li key={task._id} className="task-step-item" onClick={() => handleTaskClick(task)}>
+      <div className="step-number">{index + 1}</div>
+      <div className="step-content">
+        <strong>{task.title}</strong>
+        <p>{task.description}</p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+
       )}
 
       <EditTaskModal
