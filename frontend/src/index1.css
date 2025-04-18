@@ -39,13 +39,13 @@
 .step-content strong {
   display: block;
   color: #333;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 500;
 }
 
 .step-content p {
   color: #555;
-  font-size: 14px;
+  font-size: 8px;
   margin: 2px 0 0;
 }
 .task-step-item:hover {
